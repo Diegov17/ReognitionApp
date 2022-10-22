@@ -2,10 +2,10 @@ package com.example.reognitionapp.dogList
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.AdapterView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.reognitionapp.Dog
 import com.example.reognitionapp.databinding.DogListItemBinding
 
@@ -41,10 +41,13 @@ class DogAdapter : ListAdapter<Dog, DogAdapter.DogViewHolder>(DiffCallback) {
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(dog: Dog) {
-            binding.dogName.text = dog.name
-            binding.dogName.setOnClickListener {
+            binding.dogListItemLayout.setOnClickListener {
                 onItemClickListener?.invoke(dog)
             }
+
+            Glide.with(binding.dogImage)
+                .load(dog.imgUrl)
+                .into(binding.dogImage)
         }
     }
 }
