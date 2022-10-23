@@ -6,9 +6,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.reognitionapp.domain.Dog
 import com.example.reognitionapp.api.ApiResponseStatus
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class DogListViewModel : ViewModel() {
+@HiltViewModel
+class DogListViewModel @Inject constructor(
+    private val dogRepository: DogTasks,
+) : ViewModel() {
 
     private val _dogList = MutableLiveData<List<Dog>>()
     val dogList: LiveData<List<Dog>>
@@ -17,8 +22,6 @@ class DogListViewModel : ViewModel() {
     private val _status = MutableLiveData<ApiResponseStatus<Any>>()
     val status: LiveData<ApiResponseStatus<Any>>
         get() = _status
-
-    private val dogRepository: DogRepository = DogRepository()
 
     init {
         getDogCollection()

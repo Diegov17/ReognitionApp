@@ -8,11 +8,13 @@ import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
-import com.example.reognitionapp.DogDetailActivity
-import com.example.reognitionapp.DogDetailActivity.Companion.DOG_KEY
+import com.example.reognitionapp.dogdetail.DogDetailActivity
+import com.example.reognitionapp.dogdetail.DogDetailActivity.Companion.DOG_KEY
 import com.example.reognitionapp.api.ApiResponseStatus
 import com.example.reognitionapp.databinding.ActivityDogListBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class DogListActivity : AppCompatActivity() {
 
     private val dogListViewModel: DogListViewModel by viewModels()

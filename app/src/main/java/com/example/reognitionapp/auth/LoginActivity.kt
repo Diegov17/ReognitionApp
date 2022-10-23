@@ -4,12 +4,10 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
-import androidx.lifecycle.viewModelScope
 import androidx.navigation.findNavController
-import com.example.reognitionapp.MainActivity
+import com.example.reognitionapp.main.MainActivity
 import com.example.reognitionapp.R
 import com.example.reognitionapp.api.ApiResponseStatus
 import com.example.reognitionapp.databinding.ActivityLoginBinding

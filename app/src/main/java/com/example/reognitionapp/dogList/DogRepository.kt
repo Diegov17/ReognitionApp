@@ -11,10 +11,17 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.withContext
 import java.lang.Exception
+import javax.inject.Inject
 
-class DogRepository {
 
-    suspend fun getDogCollection(): ApiResponseStatus<List<Dog>> {
+interface DogTasks {
+    suspend fun getDogCollection(): ApiResponseStatus<List<Dog>>
+    suspend fun addDogToUser(dogId: Long): ApiResponseStatus<Any>
+}
+
+class DogRepository @Inject constructor() : DogTasks {
+
+    override suspend fun getDogCollection(): ApiResponseStatus<List<Dog>> {
         return withContext(Dispatchers.IO) {
             val allDogsListDeferred = async { downloadDogs() }
             //val userDogsListDeferred = async { getUserDogs() }
@@ -72,7 +79,7 @@ class DogRepository {
         return ApiResponseStatus.Success(getFakeUserDogs())
     }
 
-    suspend fun addDogToUser(dogId: Long): ApiResponseStatus<Any> = makeNetworkCall {
+    override suspend fun addDogToUser(dogId: Long): ApiResponseStatus<Any> = makeNetworkCall {
         val addDogToUserDTO = AddDogToUserDTO(dogId)
         val addDogToUserResponse = retrofitService.addDogToUser(addDogToUserDTO)
 
