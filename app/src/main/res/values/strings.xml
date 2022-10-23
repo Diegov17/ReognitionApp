@@ -40,4 +40,7 @@
 
     <string name="logout_button_text">Logout</string>
 
+    <string name="permission_camera_title">Accept camera permission</string>
+    <string name="permission_camera_message">Please accept in order to use the app</string>
+
 </resources>

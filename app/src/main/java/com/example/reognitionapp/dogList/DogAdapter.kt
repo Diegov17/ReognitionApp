@@ -48,29 +48,45 @@ class DogAdapter : ListAdapter<Dog, DogAdapter.DogViewHolder>(DiffCallback) {
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(dog: Dog) {
+
             if (dog.inCollection) {
-                binding.dogListItemLayout.setOnClickListener {
-                    onItemClickListener?.invoke(dog)
-                }
-
-                binding.dogListItemLayout.setOnLongClickListener {
-                    onLongItemClickListener?.invoke(dog)
-                    true
-                }
-
-                Glide.with(binding.dogImage)
-                    .load(dog.imgUrl)
-                    .into(binding.dogImage)
+                setUpDogInCollection(binding, dog)
             } else {
-                binding.dogImage.visibility = View.GONE
-                binding.dogListItemLayout.background =
-                    ContextCompat.getDrawable(
-                        binding.dogImage.context,
-                        R.drawable.dog_list_item_null_background
-                    )
+                setUpDogNotInCollection(binding, dog)
             }
+        }
+    }
 
+    private fun setUpDogInCollection(binding: DogListItemBinding, dog: Dog) {
+        binding.dogListItemLayout.background = ContextCompat.getDrawable(
+            binding.dogImage.context, R.drawable.dog_list_item_background
+        )
+        binding.dogImage.visibility = View.VISIBLE
+        binding.dogIndex.visibility = View.GONE
 
+        binding.dogListItemLayout.setOnClickListener {
+            onItemClickListener?.invoke(dog)
+        }
+
+        Glide.with(binding.dogImage)
+            .load(dog.imgUrl)
+            .into(binding.dogImage)
+    }
+
+    private fun setUpDogNotInCollection(binding: DogListItemBinding, dog: Dog) {
+        binding.dogImage.visibility = View.GONE
+        binding.dogIndex.visibility = View.VISIBLE
+        binding.dogIndex.text = dog.index.toString()
+
+        binding.dogListItemLayout.background =
+            ContextCompat.getDrawable(
+                binding.dogImage.context,
+                R.drawable.dog_list_item_null_background
+            )
+
+        binding.dogListItemLayout.setOnLongClickListener {
+            onLongItemClickListener?.invoke(dog)
+            true
         }
     }
 }

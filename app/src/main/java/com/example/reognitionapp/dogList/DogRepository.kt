@@ -85,7 +85,7 @@ class DogRepository {
         val dogList = mutableListOf<Dog>()
         dogList.add(
             Dog(
-                8L,
+                8,
                 4,
                 "Pekinese",
                 "Toy",
@@ -100,7 +100,7 @@ class DogRepository {
         )
         dogList.add(
             Dog(
-                9L,
+                9,
                 5,
                 "Shih Tzu",
                 "Toy",
