@@ -33,6 +33,7 @@
     <string name="error_sign_in">Error signing in</string>
     <string name="error_user_already_exists">User already exists</string>
     <string name="error_unknown">There was an error</string>
+    <string name="error_adding_a_dog">There was an error adding your dog</string>
 
     <string name="dialog_title_there_was_an_error">There was an error</string>
     <string name="error_invalid_credentials">Invalid credentials</string>

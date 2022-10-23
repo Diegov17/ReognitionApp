@@ -1,11 +1,14 @@
 package com.example.reognitionapp.dogList
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.reognitionapp.R
 import com.example.reognitionapp.domain.Dog
 import com.example.reognitionapp.databinding.DogListItemBinding
 
@@ -22,9 +25,13 @@ class DogAdapter : ListAdapter<Dog, DogAdapter.DogViewHolder>(DiffCallback) {
     }
 
     private var onItemClickListener: ((Dog) -> Unit)? = null
-
     fun setOnItemClickListener(onItemClickListener: (Dog) -> Unit) {
         this.onItemClickListener = onItemClickListener
+    }
+
+    private var onLongItemClickListener: ((Dog) -> Unit)? = null
+    fun setOnLongItemClickListener(onLongItemClickListener: (Dog) -> Unit) {
+        this.onLongItemClickListener = onLongItemClickListener
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DogViewHolder {
@@ -41,13 +48,29 @@ class DogAdapter : ListAdapter<Dog, DogAdapter.DogViewHolder>(DiffCallback) {
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(dog: Dog) {
-            binding.dogListItemLayout.setOnClickListener {
-                onItemClickListener?.invoke(dog)
+            if (dog.inCollection) {
+                binding.dogListItemLayout.setOnClickListener {
+                    onItemClickListener?.invoke(dog)
+                }
+
+                binding.dogListItemLayout.setOnLongClickListener {
+                    onLongItemClickListener?.invoke(dog)
+                    true
+                }
+
+                Glide.with(binding.dogImage)
+                    .load(dog.imgUrl)
+                    .into(binding.dogImage)
+            } else {
+                binding.dogImage.visibility = View.GONE
+                binding.dogListItemLayout.background =
+                    ContextCompat.getDrawable(
+                        binding.dogImage.context,
+                        R.drawable.dog_list_item_null_background
+                    )
             }
 
-            Glide.with(binding.dogImage)
-                .load(dog.imgUrl)
-                .into(binding.dogImage)
+
         }
     }
 }
