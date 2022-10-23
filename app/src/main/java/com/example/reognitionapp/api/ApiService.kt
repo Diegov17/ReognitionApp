@@ -6,6 +6,7 @@ import com.example.reognitionapp.api.responses.DogListApiResponse
 import com.example.reognitionapp.api.dto.SignUpDTO
 import com.example.reognitionapp.api.responses.AuthApiResponse
 import com.example.reognitionapp.api.responses.DefaultResponse
+import com.example.reognitionapp.api.responses.DogApiResponse
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -41,6 +42,9 @@ interface ApiService {
     @Headers("${ApiServiceInterceptor.NEEDS_AUTH_HEADER_KEY}: true")
     @GET("get_user_dogs")
     suspend fun getUserDogs(): DogListApiResponse
+
+    @GET("find_dog_by_ml_id")
+    suspend fun getDogByMlId(@Query("ml_id") mlId: String): DogApiResponse
 }
 
 object DogsApi {

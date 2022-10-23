@@ -1,4 +1,4 @@
-package com.example.reognitionapp.dogList
+package com.example.reognitionapp.doglist
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity

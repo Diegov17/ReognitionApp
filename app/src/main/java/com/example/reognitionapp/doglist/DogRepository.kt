@@ -1,4 +1,4 @@
-package com.example.reognitionapp.dogList
+package com.example.reognitionapp.doglist
 
 import com.example.reognitionapp.R
 import com.example.reognitionapp.domain.Dog
@@ -86,6 +86,17 @@ class DogRepository @Inject constructor() : DogTasks {
         if (!addDogToUserResponse.isSuccess) {
             throw Exception(addDogToUserResponse.message)
         }
+    }
+
+    suspend fun getDogByMlId(mlDogId: String): ApiResponseStatus<Dog> = makeNetworkCall {
+        val response = retrofitService.getDogByMlId(mlDogId)
+
+        if (!response.isSuccess) {
+            throw Exception(response.message)
+        }
+
+        val dogDTOMapper = DogDTOMapper()
+        dogDTOMapper.fromDogDTOToDogDomain(response.data.dog)
     }
 
     private fun getFakeUserDogs(): List<Dog> {

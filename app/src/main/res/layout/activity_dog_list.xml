@@ -18,7 +18,7 @@
             android:id="@+id/dog_recycler"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:context=".dogList.DogListActivity" />
+            tools:context=".doglist.DogListActivity" />
     </FrameLayout>
 
     <data>

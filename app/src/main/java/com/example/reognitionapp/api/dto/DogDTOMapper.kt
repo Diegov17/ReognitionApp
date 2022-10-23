@@ -4,7 +4,7 @@ import com.example.reognitionapp.domain.Dog
 
 class DogDTOMapper {
 
-    private fun fromDogDTOToDogDomain(dogDTO: DogDTO): Dog {
+    fun fromDogDTOToDogDomain(dogDTO: DogDTO): Dog {
 
         return Dog(
             dogDTO.id,

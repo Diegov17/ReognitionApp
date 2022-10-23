@@ -25,7 +25,7 @@
             android:name=".dogdetail.DogDetailActivity"
             android:exported="false" />
         <activity
-            android:name=".dogList.DogListActivity"
+            android:name=".doglist.DogListActivity"
             android:exported="false"
             android:parentActivityName=".main.MainActivity" />
         <activity

@@ -1,4 +1,4 @@
-package com.example.reognitionapp.dogList
+package com.example.reognitionapp.doglist
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

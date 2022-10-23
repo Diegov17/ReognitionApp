@@ -1,7 +1,7 @@
 package com.example.reognitionapp.di
 
-import com.example.reognitionapp.dogList.DogRepository
-import com.example.reognitionapp.dogList.DogTasks
+import com.example.reognitionapp.doglist.DogRepository
+import com.example.reognitionapp.doglist.DogTasks
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
