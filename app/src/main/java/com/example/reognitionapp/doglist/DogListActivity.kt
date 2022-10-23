@@ -17,7 +17,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class DogListActivity : AppCompatActivity() {
 
-    private val dogListViewModel: DogListViewModel by viewModels()
+    private val viewModel: DogListViewModel by viewModels()
 
     private lateinit var progressBar: ProgressBar
 
@@ -38,17 +38,13 @@ class DogListActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        adapter.setOnLongItemClickListener {
-            dogListViewModel.addDogToUser(it.id)
-        }
-
         recycler.adapter = adapter
 
-        dogListViewModel.dogList.observe(this) { dogList ->
+        viewModel.dogList.observe(this) { dogList ->
             adapter.submitList(dogList)
         }
 
-        dogListViewModel.status.observe(this) { status ->
+        viewModel.status.observe(this) { status ->
 
             when (status) {
                 is ApiResponseStatus.Loading -> showProgressBar()

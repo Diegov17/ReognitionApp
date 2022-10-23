@@ -25,18 +25,22 @@ import com.example.reognitionapp.auth.LoginActivity
 import com.example.reognitionapp.databinding.ActivityMainBinding
 import com.example.reognitionapp.dogdetail.DogDetailActivity
 import com.example.reognitionapp.dogdetail.DogDetailActivity.Companion.DOG_KEY
+import com.example.reognitionapp.dogdetail.DogDetailActivity.Companion.IS_RECOGNITION_KEY
 import com.example.reognitionapp.doglist.DogListActivity
 import com.example.reognitionapp.domain.Dog
 import com.example.reognitionapp.domain.User
 import com.example.reognitionapp.machinelearning.Classifier
 import com.example.reognitionapp.machinelearning.DogRecognition
+import com.example.reognitionapp.setVisibility
 import com.example.reognitionapp.settings.SettingsActivity
+import dagger.hilt.android.AndroidEntryPoint
 import org.tensorflow.lite.support.common.FileUtil
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private val requestPermissionLauncher =
         registerForActivityResult(
@@ -79,10 +83,10 @@ class MainActivity : AppCompatActivity() {
 
         viewModel.status.observe(this) { status ->
             when (status) {
-                is ApiResponseStatus.Loading -> showProgressBar()
-                is ApiResponseStatus.Success -> hideProgressBar()
+                is ApiResponseStatus.Loading -> setVisibility(binding.progressBar, true)
+                is ApiResponseStatus.Success -> setVisibility(binding.progressBar, false)
                 is ApiResponseStatus.Error -> {
-                    hideProgressBar()
+                    setVisibility(binding.progressBar, false)
                     //showErrorDialog(status.messageId)
                 }
             }
@@ -94,6 +98,10 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        viewModel.dogRecognition.observe(this) { dogRecognition ->
+            enableTakePhotoButton(dogRecognition)
+        }
+
         setupClickListeners()
         requestCameraPermission()
     }
@@ -101,6 +109,7 @@ class MainActivity : AppCompatActivity() {
     private fun openDogDetailActivity(dog: Dog) {
         val intent = Intent(this, DogDetailActivity::class.java)
         intent.putExtra(DOG_KEY, dog)
+        intent.putExtra(IS_RECOGNITION_KEY, true)
         startActivity(intent)
     }
 
@@ -121,13 +130,7 @@ class MainActivity : AppCompatActivity() {
                 .build()
 
             imageAnalysis.setAnalyzer(cameraExecutor) { imageProxy ->
-                val bitmap = convertImageProxyToBitmap(imageProxy)
-                if (bitmap != null) {
-                    val dogRecognition = classifier.recognizeImage(bitmap).first()
-                    enableTakePhotoButton(dogRecognition)
-                }
-
-                imageProxy.close()
+                viewModel.recognizeImage(imageProxy)
             }
 
             cameraProvider.bindToLifecycle(
@@ -152,32 +155,6 @@ class MainActivity : AppCompatActivity() {
             binding.takePhotoFab.alpha = 0.2f
             binding.takePhotoFab.setOnClickListener(null)
         }
-    }
-
-    @SuppressLint("UnsafeOptInUsageError")
-    private fun convertImageProxyToBitmap(imageProxy: ImageProxy): Bitmap? {
-        val image = imageProxy.image ?: return null
-
-        val yBuffer = image.planes[0].buffer // Y
-        val uBuffer = image.planes[1].buffer // U
-        val vBuffer = image.planes[2].buffer // V
-
-        val ySize = yBuffer.remaining()
-        val uSize = uBuffer.remaining()
-        val vSize = vBuffer.remaining()
-
-        val nv21 = ByteArray(ySize + uSize + vSize)
-
-        yBuffer.get(nv21, 0, ySize)
-        vBuffer.get(nv21, ySize, vSize)
-        uBuffer.get(nv21, ySize + vSize, uSize)
-
-        val yuvImage = YuvImage(nv21, ImageFormat.NV21, image.width, image.height, null)
-        val out = ByteArrayOutputStream()
-        yuvImage.compressToJpeg(Rect(0, 0, yuvImage.width, yuvImage.height), 50, out)
-        val imageBytes = out.toByteArray()
-
-        return BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
     }
 
     private fun setupClickListeners() {
@@ -241,14 +218,6 @@ class MainActivity : AppCompatActivity() {
         finish()
     }
 
-    private fun hideProgressBar() {
-        binding.progressBar.visibility = View.GONE
-    }
-
-    private fun showProgressBar() {
-        binding.progressBar.visibility = View.VISIBLE
-    }
-
     override fun onDestroy() {
         super.onDestroy()
 
@@ -258,11 +227,10 @@ class MainActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        classifier =
-            Classifier(
-                FileUtil.loadMappedFile(this@MainActivity, "model.tflite"),
-                FileUtil.loadLabels(this@MainActivity, "labels.txt")
-            )
+        viewModel.setupClassifier(
+            FileUtil.loadMappedFile(this@MainActivity, "model.tflite"),
+            FileUtil.loadLabels(this@MainActivity, "labels.txt")
+        )
     }
 
     private fun requestCameraPermission() {

@@ -13,14 +13,14 @@ import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.*
 
-private val okHttpeClient = OkHttpClient
+private val okHttpClient = OkHttpClient
     .Builder()
     .addInterceptor(ApiServiceInterceptor)
     .addNetworkInterceptor(ApiServiceInterceptor)
     .build()
 
 private val retrofit = Retrofit.Builder()
-    .client(okHttpeClient)
+    .client(okHttpClient)
     .baseUrl("https://todogs.herokuapp.com/api/v1/")
     .addConverterFactory(MoshiConverterFactory.create())
     .build()

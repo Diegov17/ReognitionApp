@@ -1,17 +1,18 @@
-package com.example.reognitionapp.doglist
+package com.example.reognitionapp.dogdetail
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.reognitionapp.domain.Dog
 import com.example.reognitionapp.api.ApiResponseStatus
+import com.example.reognitionapp.doglist.DogTasks
+import com.example.reognitionapp.domain.Dog
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class DogListViewModel @Inject constructor(
+class DogDetailViewModel @Inject constructor(
     private val dogRepository: DogTasks,
 ) : ViewModel() {
 
@@ -23,25 +24,14 @@ class DogListViewModel @Inject constructor(
     val status: LiveData<ApiResponseStatus<Any>>
         get() = _status
 
-    init {
-        getDogCollection()
-    }
-
-    private fun getDogCollection() {
+    fun addDogToUser(dogId: Long) {
         viewModelScope.launch {
             _status.value = ApiResponseStatus.Loading()
-            handleGetDogListResponseStatus(dogRepository.getDogCollection())
+            handleAddDogToUserResponseStatus(dogRepository.addDogToUser(dogId))
         }
     }
 
-
-
-    @Suppress("UNCHECKED_CAST")
-    private fun handleGetDogListResponseStatus(apiResponseStatus: ApiResponseStatus<List<Dog>>) {
-        if (apiResponseStatus is ApiResponseStatus.Success) {
-            _dogList.value = apiResponseStatus.data
-        }
-
-        _status.value = apiResponseStatus as ApiResponseStatus<Any>
+    private fun handleAddDogToUserResponseStatus(apiResponseStatus: ApiResponseStatus<Any>) {
+        _status.value = apiResponseStatus
     }
 }

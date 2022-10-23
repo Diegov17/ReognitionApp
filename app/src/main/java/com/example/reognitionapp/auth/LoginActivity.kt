@@ -12,6 +12,7 @@ import com.example.reognitionapp.R
 import com.example.reognitionapp.api.ApiResponseStatus
 import com.example.reognitionapp.databinding.ActivityLoginBinding
 import com.example.reognitionapp.domain.User
+import com.example.reognitionapp.setVisibility
 
 class LoginActivity : AppCompatActivity(), LoginFragment.LoginFragmentActions,
     SignUpFragment.SignUpFragmentActions {
@@ -27,10 +28,10 @@ class LoginActivity : AppCompatActivity(), LoginFragment.LoginFragmentActions,
 
         viewModel.status.observe(this) { status ->
             when (status) {
-                is ApiResponseStatus.Loading -> showProgressBar()
-                is ApiResponseStatus.Success -> hideProgressBar()
+                is ApiResponseStatus.Loading -> setVisibility(binding.progressBar, true)
+                is ApiResponseStatus.Success -> setVisibility(binding.progressBar, false)
                 is ApiResponseStatus.Error -> {
-                    hideProgressBar()
+                    setVisibility(binding.progressBar, false)
                     showErrorDialog(status.messageId)
                 }
             }
@@ -68,13 +69,5 @@ class LoginActivity : AppCompatActivity(), LoginFragment.LoginFragmentActions,
             .setPositiveButton(android.R.string.ok) { _, _ -> /** Dismiss dialog **/ }
             .create()
             .show()
-    }
-
-    private fun hideProgressBar() {
-        binding.progressBar.visibility = View.GONE
-    }
-
-    private fun showProgressBar() {
-        binding.progressBar.visibility = View.VISIBLE
     }
 }
