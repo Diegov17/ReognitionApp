@@ -6,7 +6,7 @@
 
         <variable
             name="dog"
-            type="com.example.reognitionapp.Dog" />
+            type="com.example.reognitionapp.domain.Dog" />
     </data>
 
     <FrameLayout

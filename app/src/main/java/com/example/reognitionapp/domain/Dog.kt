@@ -1,4 +1,4 @@
-package com.example.reognitionapp
+package com.example.reognitionapp.domain
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize

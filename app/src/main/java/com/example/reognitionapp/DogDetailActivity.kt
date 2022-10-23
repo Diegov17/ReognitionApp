@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.widget.Toast
 import com.bumptech.glide.Glide
 import com.example.reognitionapp.databinding.ActivityDogDetailBinding
-import com.example.reognitionapp.databinding.ActivityDogListBinding
+import com.example.reognitionapp.domain.Dog
 
 class DogDetailActivity : AppCompatActivity() {
 

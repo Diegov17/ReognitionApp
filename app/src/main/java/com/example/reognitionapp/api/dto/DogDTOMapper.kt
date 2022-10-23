@@ -1,10 +1,10 @@
 package com.example.reognitionapp.api.dto
 
-import com.example.reognitionapp.Dog
+import com.example.reognitionapp.domain.Dog
 
 class DogDTOMapper {
 
-    fun fromDogDTOToDogDomain(dogDTO: DogDTO): Dog {
+    private fun fromDogDTOToDogDomain(dogDTO: DogDTO): Dog {
 
         return Dog(
             dogDTO.id,

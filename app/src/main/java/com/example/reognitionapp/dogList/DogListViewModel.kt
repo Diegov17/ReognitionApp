@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.reognitionapp.Dog
+import com.example.reognitionapp.domain.Dog
 import com.example.reognitionapp.api.ApiResponseStatus
 import kotlinx.coroutines.launch
 

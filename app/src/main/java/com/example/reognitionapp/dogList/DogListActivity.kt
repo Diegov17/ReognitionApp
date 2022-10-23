@@ -4,16 +4,12 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.reognitionapp.Dog
 import com.example.reognitionapp.DogDetailActivity
 import com.example.reognitionapp.DogDetailActivity.Companion.DOG_KEY
-import com.example.reognitionapp.R
 import com.example.reognitionapp.api.ApiResponseStatus
 import com.example.reognitionapp.databinding.ActivityDogListBinding
 

@@ -2,8 +2,8 @@ package com.example.reognitionapp.api.responses
 
 import com.squareup.moshi.Json
 
-class DogListApiResponse(
+class AuthApiResponse(
     val message: String,
     @field:Json(name = "is_success") val isSuccess: Boolean,
-    val data: DogListResponse
+    val data: UserResponse
 )

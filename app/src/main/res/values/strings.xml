@@ -23,6 +23,20 @@
     <string name="sign_up_email">Email</string>
     <string name="sign_up_password">Password</string>
     <string name="sign_up_confirm_password">Confirm password</string>
+    <string name="sign_up_email_not_valid_error">Not valid email</string>
+    <string name="sign_up_password_empty_error">Invalid/empty password</string>
+    <string name="sign_up_confirmation_password_empty_error">Invalid/empty password</string>
+    <string name="sign_up_password_not_matching_error">Passwords do not match</string>
 
+
+    <string name="error_sign_up">Error signing up</string>
+    <string name="error_sign_in">Error signing in</string>
+    <string name="error_user_already_exists">User already exists</string>
+    <string name="error_unknown">There was an error</string>
+
+    <string name="dialog_title_there_was_an_error">There was an error</string>
+    <string name="error_invalid_credentials">Invalid credentials</string>
+
+    <string name="logout_button_text">Logout</string>
 
 </resources>
